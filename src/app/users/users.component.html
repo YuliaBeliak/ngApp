@@ -1,0 +1,7 @@
+<ul class="users">
+  <li *ngFor="let user of users" (click)="selectedUser = user" [class.selected]="user === selectedUser">
+    {{user.firstName + ' ' + user.lastName}}
+  </li>
+</ul>
+
+<app-user-detail [user]="selectedUser"></app-user-detail>

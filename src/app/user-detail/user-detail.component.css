@@ -1,0 +1,17 @@
+.user-details {
+  margin: 0.5em;
+}
+
+.user-details .title {
+  width: 6em;
+  display: inline-block;
+  font-weight: bold;
+}
+
+.user-details li {
+  list-style-type: none;
+}
+
+.user-details ul {
+  padding-left: 0;
+}
