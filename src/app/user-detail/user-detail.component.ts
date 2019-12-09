@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from "../user";
+import { USERS } from "../mock-users";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-user-detail',
@@ -8,12 +10,14 @@ import { User } from "../user";
 })
 export class UserDetailComponent implements OnInit {
 
-  @Input() user: User;
+  user: User;
 
-  constructor() {
+  constructor(private route: ActivatedRoute) {
   }
 
   ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      this.user = USERS.find(el => el._id === params.get('id'));
+    })
   }
-
 }
