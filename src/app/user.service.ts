@@ -9,7 +9,7 @@ export class UserService {
 
   constructor() { }
 
-  getUsers(): User[] {
-    return USERS;
+  public getUser(id: string): User {
+    return  USERS.find(el => el._id === id);
   }
 }

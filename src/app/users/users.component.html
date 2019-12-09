@@ -1,6 +1,5 @@
 <ul class="users">
-  <li *ngFor="let user of users" (click)="selectedUser = user" [class.selected]="user === selectedUser"
-      [routerLink]="['/detail', user._id]">
+  <li *ngFor="let user of users" [routerLink]="['/detail', user._id]">
     {{user.firstName + ' ' + user.lastName}}
   </li>
 </ul>

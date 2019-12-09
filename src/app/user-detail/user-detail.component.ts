@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { User } from "../user";
-import { USERS } from "../mock-users";
 import { ActivatedRoute } from "@angular/router";
+import { UserService } from "../user.service";
 
 @Component({
   selector: 'app-user-detail',
@@ -12,12 +12,13 @@ export class UserDetailComponent implements OnInit {
 
   user: User;
 
-  constructor(private route: ActivatedRoute) {
-  }
+  constructor(
+    private route: ActivatedRoute,
+    private userService: UserService
+  ) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      this.user = USERS.find(el => el._id === params.get('id'));
-    })
+    const id = this.route.snapshot.paramMap.get('id');
+    this.user = this.userService.getUser(id);
   }
 }
