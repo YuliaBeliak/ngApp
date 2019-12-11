@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { User } from "../../interfaces/users/user";
-import { USERS } from "../../mocks/users/mock-users";
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-users',
@@ -9,7 +7,7 @@ import { USERS } from "../../mocks/users/mock-users";
 })
 export class UsersComponent implements OnInit {
 
-  public users: User[] = USERS;
+  @Input() users: object;
 
   constructor() { }
 
