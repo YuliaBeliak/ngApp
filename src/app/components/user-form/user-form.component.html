@@ -1,0 +1,43 @@
+<mat-card>
+  <form class="signup" [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field>
+      <input matInput formControlName="firstName" placeholder="First Name" [required]="!user">
+      <mat-error *ngIf="form.get('firstName').invalid && !user">
+        First Name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="lastName" placeholder="Last Name" [required]="!user">
+      <mat-error *ngIf="form.get('lastName').invalid && !user">
+        Last Name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="login" placeholder="Login" [required]="!user">
+      <mat-error *ngIf="form.get('login').invalid && !user">
+        Login is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="password" placeholder="Password" type="password" [required]="!user">
+      <mat-error *ngIf="form.get('password').invalid && !user">
+        Login is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>City</mat-label>
+      <mat-select formControlName="city" [required]="!user">
+        <mat-option *ngFor="let city of cities | async" [value]="city._id">
+          {{city.title}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="button-set">
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || form.pending">Submit</button>
+    </div>
+  </form>
+  <div class="removeUser" *ngIf="user">
+    <mat-divider></mat-divider>
+    <button mat-raised-button color="warn" (click)="removeAccount()">Remove Account</button>
+  </div>
+</mat-card>

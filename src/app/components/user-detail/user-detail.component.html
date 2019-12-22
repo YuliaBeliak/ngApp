@@ -1,0 +1,22 @@
+<div class="container">
+  <mat-card class="avatar">
+    <img mat-card-image [src]="user?.pic ? user?.pic : '../../../assets/img/default-profile.png'" alt="User Pic" class="user-pick">
+    <mat-card-actions>
+      <button mat-button *ngIf="!isMe()">Add To Friends</button>
+      <button mat-button *ngIf="isMe()" routerLink="/edit">Edit</button>
+    </mat-card-actions>
+  </mat-card>
+  <mat-card class="main-info">
+    <mat-card-header>
+      <mat-card-title>{{user?.firstName + ' ' + user?.lastName | uppercase}}</mat-card-title>
+      <mat-card-subtitle>Online</mat-card-subtitle>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <mat-list dense>
+        <mat-list-item><span class="list-item-title">City</span><span class="list-item-details">{{user?.city}}</span></mat-list-item>
+        <mat-list-item><span class="list-item-title">City</span><span class="list-item-details">{{user?.city}}</span></mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>

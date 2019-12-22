@@ -1,17 +1,29 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import {NgModule, Provider} from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from "@angular/forms";
 
 import { AppRoutingModule } from './app-routing.module';
+import { MaterialModule } from "./modules/material/material.module";
 
 import { AppComponent } from './app.component';
 import { UsersComponent } from './pages/users/users.component';
 import { UsersContainer } from "./pages/users/users.container";
-import { UserDetailComponent } from './pages/user-detail/user-detail.component';
-import { UserDetailContainer } from "./pages/user-detail/user-detail.container";
+import { UserDetailComponent } from './components/user-detail/user-detail.component';
+import { UserDetailContainer } from "./components/user-detail/user-detail.container";
 import { LoginComponent } from './pages/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SignupComponent } from './pages/signup/signup.component';
+import { MeComponent } from './pages/me/me.component';
+import {AuthInterceptor} from "./shared/auth.interceptor";
+import { EditComponent } from './pages/edit/edit.component';
+import { UserFormComponent } from './components/user-form/user-form.component';
+
+const INTERCEPTOR_PROVIDER: Provider = {
+  provide: HTTP_INTERCEPTORS,
+  useClass: AuthInterceptor,
+  multi: true
+};
 
 @NgModule({
   declarations: [
@@ -20,16 +32,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     UserDetailComponent,
     UsersContainer,
     UserDetailContainer,
-    LoginComponent
+    LoginComponent,
+    SignupComponent,
+    MeComponent,
+    EditComponent,
+    UserFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MaterialModule
   ],
-  providers: [],
+  providers: [INTERCEPTOR_PROVIDER],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

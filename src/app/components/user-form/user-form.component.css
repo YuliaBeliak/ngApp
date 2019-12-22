@@ -1,0 +1,10 @@
+mat-card {
+  width: 300px;
+  transform: translateY(20%);
+  text-align: center;
+}
+
+.mat-card .mat-divider-horizontal  {
+  margin: 15px 0;
+  position: static;
+}

@@ -1,0 +1,32 @@
+.navbar {
+  justify-content: space-between;
+}
+
+.navbar .logo {
+  font-weight: bold;
+  font-size: 1.8rem;
+  color: #8ed7c7;
+}
+
+.navbar a {
+  padding-right: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.navbar a:visited {
+  color: inherit;
+}
+
+.navbar nav a:hover {
+  color: #8ed7c7;
+}
+
+.navbar a:visited.active {
+  color: #41bea3;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+}

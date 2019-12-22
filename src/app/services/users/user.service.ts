@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import {Observable, throwError} from "rxjs";
-import {catchError} from "rxjs/operators";
+import {Observable} from "rxjs";
 import {User} from "../../interfaces/users/user";
 
 @Injectable({
@@ -15,15 +14,23 @@ export class UserService {
     private http: HttpClient
   ) { }
 
-  public getUsers(): Observable<User[]> {
+  getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.usersUrl);
   }
 
-  public getUser(id: string): Observable<User[]> {
+  getUser(id: string): Observable<User[]> {
     return this.http.get<User[]>(`${this.usersUrl}/${id}`);
   }
 
-  public login(data: object): Observable<object> {
-    return this.http.post<object>(`${this.usersUrl}/login`, data)
+  signUp(formValue: User): Observable<User[]> {
+    return this.http.post<User[]>(this.usersUrl, formValue);
+  }
+
+  updateUser(id: string, formValue: User): Observable<User> {
+    return this.http.put<User>(`${this.usersUrl}/${id}`, formValue);
+  }
+
+  remove(id: string): Observable<User> {
+    return this.http.delete<User>(`${this.usersUrl}/${id}`);
   }
 }

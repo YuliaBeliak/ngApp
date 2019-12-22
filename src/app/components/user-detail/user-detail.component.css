@@ -1,0 +1,27 @@
+.container {
+  margin: 20px;
+  width: 640px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-pick {
+  width: 200px;
+  height: 200px;
+}
+
+.main-info {
+  width: 380px;
+}
+
+.avatar {
+  text-align: center;
+}
+
+.list-item-title {
+  width: 40px;
+}
+
+.list-item-details {
+  color: #787878;
+}

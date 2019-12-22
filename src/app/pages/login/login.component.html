@@ -1,23 +1,27 @@
-<form class="login" [formGroup]="form" (ngSubmit)="submit()">
-  <div class="form-control">
-    <label>Login
-      <input type="text" placeholder="Login" formControlName="login">
-    </label>
-    <div *ngIf="form.get('login').invalid && form.get('login').touched" class="validation">
-      <small *ngIf="form.get('login').errors.required">Field login can't be empty</small>
+<mat-card>
+  <form class="login" [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field>
+      <input matInput formControlName="login" placeholder="Login" required>
+      <mat-error *ngIf="form.get('login').invalid">
+        Login is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="password" placeholder="Password" type="password" required>
+      <mat-error *ngIf="form.get('password').invalid">
+        Password is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <div class="button-set">
+      <button mat-button color="primary" type="submit" [disabled]="form.invalid || form.pending">Sign in</button>
+      <button mat-button color="accent" type="button" routerLink="/signup">Sign Up</button>
     </div>
-  </div>
-  <div class="form-control">
-    <label>Password
-      <input type="password" placeholder="Password" formControlName="password">
-    </label>
-    <div *ngIf="form.get('password').invalid && form.get('password').touched" class="validation">
-      <small *ngIf="form.get('password').errors.required">Field Password can't be empty</small>
+    <div class="error" *ngIf="error">
+      <small>{{error}}</small>
     </div>
-  </div>
-  <button type="submit" [disabled]="form.invalid || form.pending">Sign in</button>
-  <button type="button"><a routerLink="/signup">Sign Up</a></button>
-  <div class="error" *ngIf="error">
-    <small>{{error}}</small>
-  </div>
-</form>
+  </form>
+</mat-card>
+
+
+
+

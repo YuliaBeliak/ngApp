@@ -8,9 +8,15 @@ import {User} from "../../interfaces/users/user";
 })
 export class UserDetailComponent implements OnInit {
 
-  @Input() user: User;
+  @Input() user?: User;
 
   constructor() { }
 
   ngOnInit() { }
+
+  isMe(): boolean {
+    if (this.user) {
+      return this.user._id === JSON.parse(localStorage.user)._id;
+    }
+  }
 }
