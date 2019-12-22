@@ -3,6 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { UserService } from "../../services/users/user.service";
 import { map } from "rxjs/operators";
 import {Observable} from "rxjs";
+import {User} from "../../interfaces/users/user";
 
 @Component({
   selector: 'app-user-detail-container',
@@ -12,7 +13,7 @@ import {Observable} from "rxjs";
 })
 export class UserDetailContainer implements OnInit {
 
-  user: Observable<object>;
+  user: Observable<User>;
 
   constructor(
     private route: ActivatedRoute,

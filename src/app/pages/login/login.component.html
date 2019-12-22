@@ -16,6 +16,7 @@
     </div>
   </div>
   <button type="submit" [disabled]="form.invalid || form.pending">Sign in</button>
+  <button type="button"><a routerLink="/signup">Sign Up</a></button>
   <div class="error" *ngIf="error">
     <small>{{error}}</small>
   </div>
