@@ -1,0 +1,22 @@
+<form class="login" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="form-control">
+    <label>Login
+      <input type="text" placeholder="Login" formControlName="login">
+    </label>
+    <div *ngIf="form.get('login').invalid && form.get('login').touched" class="validation">
+      <small *ngIf="form.get('login').errors.required">Field login can't be empty</small>
+    </div>
+  </div>
+  <div class="form-control">
+    <label>Password
+      <input type="password" placeholder="Password" formControlName="password">
+    </label>
+    <div *ngIf="form.get('password').invalid && form.get('password').touched" class="validation">
+      <small *ngIf="form.get('password').errors.required">Field Password can't be empty</small>
+    </div>
+  </div>
+  <button type="submit" [disabled]="form.invalid || form.pending">Sign in</button>
+  <div class="error" *ngIf="error">
+    <small>{{error}}</small>
+  </div>
+</form>
