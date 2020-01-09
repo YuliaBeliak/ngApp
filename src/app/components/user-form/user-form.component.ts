@@ -30,22 +30,10 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit() {
     this.cities = this.citiesService.getCities();
-    this.form = new FormGroup({
-      firstName: new FormControl(null),
-      lastName: new FormControl(null),
-      login: new FormControl(null),
-      password: new FormControl(null),
-      city: new FormControl(null)
-    });
-
+    this.createInitialForm();
     if(this.user) {
       this.setUserCity();
-
-      this.form.patchValue({
-        firstName: this.user.firstName,
-        lastName: this.user.lastName,
-        login: this.user.login
-      })
+      this.prefillFormForEdit();
     } else {
       this.form.setValidators(Validators.required)
     }
@@ -53,24 +41,9 @@ export class UserFormComponent implements OnInit {
 
   submit() {
     if (this.user) {
-      const userDataToUpdate = this.form.value;
-      for (let key in userDataToUpdate) {
-        if (!userDataToUpdate[key]) {
-          delete userDataToUpdate[key]
-        }
-      }
-      this.userService.updateUser(this.user._id, userDataToUpdate)
-        .subscribe((res: User) => {
-          localStorage.setItem('user', JSON.stringify(res));
-          this.router.navigate(['/me'])
-        });
-
+      this.updateUserData();
     } else {
-      this.userService.signUp(this.form.value)
-        .subscribe(() => {
-          this.router.navigate(['/me'])
-        });
-      this.form.reset();
+      this.createNewUser();
     }
   }
 
@@ -95,4 +68,43 @@ export class UserFormComponent implements OnInit {
         })
     }
   };
+
+  updateUserData() {
+    const userDataToUpdate = this.form.value;
+    for (let key in userDataToUpdate) {
+      if (!userDataToUpdate[key]) {
+        delete userDataToUpdate[key]
+      }
+    }
+    this.userService.updateUser(this.user._id, userDataToUpdate)
+      .subscribe((res: User) => {
+        this.authService.loggedUser = res;
+        this.router.navigate(['/me'])
+      });
+  }
+
+  createNewUser() {
+    this.userService.signUp(this.form.value)
+      .subscribe(() => {
+        this.router.navigate(['/me'])
+      });
+  }
+
+  createInitialForm() {
+    this.form = new FormGroup({
+      firstName: new FormControl(null),
+      lastName: new FormControl(null),
+      login: new FormControl(null),
+      password: new FormControl(null),
+      city: new FormControl(null)
+    });
+  }
+
+  prefillFormForEdit() {
+    this.form.patchValue({
+      firstName: this.user.firstName,
+      lastName: this.user.lastName,
+      login: this.user.login
+    })
+  }
 }

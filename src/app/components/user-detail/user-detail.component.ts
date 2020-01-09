@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {User} from "../../interfaces/users/user";
+import {AuthService} from "../../services/auth/auth.service";
 
 @Component({
   selector: 'app-user-detail',
@@ -10,13 +11,13 @@ export class UserDetailComponent implements OnInit {
 
   @Input() user?: User;
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() { }
 
   isMe(): boolean {
     if (this.user) {
-      return this.user._id === JSON.parse(localStorage.user)._id;
+      return this.user._id === this.authService.loggedUser._id;
     }
   }
 }

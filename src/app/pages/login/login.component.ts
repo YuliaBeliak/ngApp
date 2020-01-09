@@ -29,10 +29,12 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
-    this.authService.login(this.form.value).subscribe(() => {
-      // this.authService.isLogged = true;
+    this.authService.login(this.form.value).subscribe((res) => {
+      this.authService.isAuthenticated = true;
+      this.authService.loggedUser = res.user[0];
+      this.authService.saveToken(res.tokens.access, 'access');
+      this.authService.saveToken(res.tokens.refresh, 'refresh');
       this.router.navigate(['me']);
-      this.form.reset();
     });
   }
 }

@@ -1,15 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable, of} from "rxjs";
-import {catchError, map, mapTo, tap} from "rxjs/operators";
+import {Observable} from "rxjs";
 import {LoginReq} from "../../interfaces/login/login-req";
-import {LoginRes} from "../../interfaces/login/login-res";
-import {User} from "../../interfaces/users/user";
 import {UserService} from "../users/user.service";
 import {Router} from "@angular/router";
-
-class loginRes {
-}
+import {Token} from "../../interfaces/token/token";
+import {LoginRes} from "../../interfaces/login/login-res";
+import {User} from "../../interfaces/users/user";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +15,8 @@ class loginRes {
 export class AuthService {
 
   private usersUrl = 'http://localhost:3000/users';
-  public isLogged: boolean;
+  public isAuthenticated: boolean;
+  public loggedUser: User;
 
   constructor(
     private http: HttpClient,
@@ -26,33 +25,40 @@ export class AuthService {
   ) {
   }
 
-  login(loginData: LoginReq): Observable<loginRes> {
-    return this.http.post<any>(`${this.usersUrl}/login`, loginData)
-      .pipe(
-        map((res: LoginRes) => {
-          localStorage.setItem('access', res.tokens.accessToken);
-          localStorage.setItem('exp', res.tokens.exp.toString());
-          localStorage.setItem('refresh', res.tokens.refreshToken);
-          localStorage.setItem('user', JSON.stringify(res.user[0]));
-          return res;
-          }
-        ));
+  login(loginData: LoginReq): Observable<LoginRes> {
+    return this.http.post<LoginRes>(`${this.usersUrl}/login`, loginData);
   }
 
   logout() {
-    localStorage.removeItem('access');
-    localStorage.removeItem('refresh');
-    localStorage.removeItem('exp');
-    localStorage.removeItem('user');
+    this.isAuthenticated = false;
+    this.removeToken('access');
+    this.removeToken('refresh');
     this.router.navigate(['login'])
 
   }
 
-  isAuthenticated(): boolean {
-    return (localStorage.getItem('access')
-      && localStorage.getItem('refresh')
-      && localStorage.getItem('user')
-      && Date.now() < (+localStorage.getItem('exp') * 1000)
-    );
+  saveToken(token: Token, tokenName: string): void {
+    localStorage.setItem(tokenName, JSON.stringify(token));
+  }
+
+  removeToken(tokenName: string): void {
+    localStorage.removeItem(tokenName);
+  }
+
+  getToken(tokenName: string): Token {
+    return JSON.parse(localStorage.getItem(tokenName))
+  }
+
+  isTokenNotExpired(tokenName: string): boolean {
+    return Date.now() < (+this.getToken(tokenName).expiryDate * 1000);
+  }
+
+  refreshAccessToken() {
+    return this.http.post<Token>(`${this.usersUrl}/token`, this.getToken('refresh'))
+      .pipe(
+        map(value => {
+          this.saveToken(value, 'access');
+        })
+      );
   }
 }

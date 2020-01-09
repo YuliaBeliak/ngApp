@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from "../../interfaces/users/user";
+import {AuthService} from "../../services/auth/auth.service";
 
 @Component({
   selector: 'app-edit',
@@ -8,9 +8,7 @@ import {User} from "../../interfaces/users/user";
 })
 export class EditComponent implements OnInit {
 
-  user: User = JSON.parse(localStorage.getItem('user'));
-
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
   }

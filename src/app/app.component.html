@@ -1,11 +1,11 @@
 <mat-toolbar color="primary" class="navbar">
   <div class="logo"><a routerLink="/me">SomeApp</a></div>
   <nav>
-    <a routerLink="/me" routerLinkActive="active" *ngIf="authService.isAuthenticated()">Home</a>
-    <a routerLink="/users" routerLinkActive="active" *ngIf="authService.isAuthenticated()">Users</a>
-    <a routerLink="/signup" routerLinkActive="active" *ngIf="!authService.isAuthenticated()">Sign Up</a>
-    <a routerLink="/login" routerLinkActive="active" *ngIf="!authService.isAuthenticated()">Log In</a>
-    <a (click)="authService.logout()" *ngIf="authService.isAuthenticated()">Log Out</a>
+    <a routerLink="/me" routerLinkActive="active" *ngIf="authService.isAuthenticated">Home</a>
+    <a routerLink="/users" routerLinkActive="active" *ngIf="authService.isAuthenticated">Users</a>
+    <a routerLink="/signup" routerLinkActive="active" *ngIf="!authService.isAuthenticated">Sign Up</a>
+    <a routerLink="/login" routerLinkActive="active" *ngIf="!authService.isAuthenticated">Log In</a>
+    <a (click)="authService.logout()" *ngIf="authService.isAuthenticated">Log Out</a>
   </nav>
 </mat-toolbar>
 <main>

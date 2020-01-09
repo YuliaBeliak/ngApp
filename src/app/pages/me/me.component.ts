@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../services/auth/auth.service";
-import {User} from "../../interfaces/users/user";
 
 @Component({
   selector: 'app-me',
@@ -8,8 +7,6 @@ import {User} from "../../interfaces/users/user";
   styleUrls: ['./me.component.css']
 })
 export class MeComponent implements OnInit {
-
-  private loggedUser: User = JSON.parse(localStorage.user);
 
   constructor(private authService: AuthService) { }
 
