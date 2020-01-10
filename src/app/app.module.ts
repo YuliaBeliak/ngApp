@@ -15,7 +15,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SignupComponent } from './pages/signup/signup.component';
 import { MeComponent } from './pages/me/me.component';
-import {AuthInterceptor} from "./shared/auth.interceptor";
+import {AuthInterceptor} from "./shared/interceptors/auth.interceptor";
 import { EditComponent } from './pages/edit/edit.component';
 import { UserFormComponent } from './components/user-form/user-form.component';
 

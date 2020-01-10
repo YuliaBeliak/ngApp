@@ -5,7 +5,7 @@ import { UserDetailContainer } from "./components/user-detail/user-detail.contai
 import {LoginComponent} from "./pages/login/login.component";
 import {SignupComponent} from "./pages/signup/signup.component";
 import {MeComponent} from "./pages/me/me.component";
-import {AuthGuard} from "./shared/auth.guard";
+import {AuthGuard} from "./shared/guards/auth.guard";
 import {EditComponent} from "./pages/edit/edit.component";
 
 
