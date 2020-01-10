@@ -1,0 +1,5 @@
+.not-found {
+  text-align: center;
+  font-size: 2rem;
+  transform: translateY(calc(50vh - 50% - 64px));
+}

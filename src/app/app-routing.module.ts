@@ -7,6 +7,7 @@ import {SignupComponent} from "./pages/signup/signup.component";
 import {MeComponent} from "./pages/me/me.component";
 import {AuthGuard} from "./shared/guards/auth.guard";
 import {EditComponent} from "./pages/edit/edit.component";
+import {NotFoundComponent} from "./pages/not-found/not-found.component";
 
 
 const routes: Routes = [
@@ -15,7 +16,9 @@ const routes: Routes = [
   {path: 'signup', component: SignupComponent},
   {path: 'users', component: UsersContainer, canActivate: [AuthGuard]},
   {path: 'detail/:id', component: UserDetailContainer},
-  {path: 'edit', component: EditComponent, canActivate: [AuthGuard]}
+  {path: 'edit', component: EditComponent, canActivate: [AuthGuard]},
+  {path: '404', component: NotFoundComponent},
+  {path: '**', redirectTo: '/404'}
 ];
 
 @NgModule({
