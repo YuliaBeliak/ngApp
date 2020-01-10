@@ -8,3 +8,7 @@ mat-card {
   margin: 15px 0;
   position: static;
 }
+
+mat-error {
+  font-size: 0.65rem;
+}

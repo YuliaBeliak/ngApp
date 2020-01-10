@@ -37,7 +37,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
       this.setUserCity();
       this.prefillFormForEdit();
     } else {
-      this.form.setValidators(Validators.required)
+      this.addValidatorsForSignUpForm();
     }
   }
 
@@ -116,6 +116,29 @@ export class UserFormComponent implements OnInit, OnDestroy {
       lastName: this.user.lastName,
       login: this.user.login
     })
+  }
+
+  addValidatorsForSignUpForm() {
+    this.form.controls["firstName"].setValidators([
+      Validators.minLength(2),
+      Validators.maxLength(30),
+      Validators.pattern(/^[a-z]+$/i)
+    ]);
+    this.form.controls["lastName"].setValidators([
+      Validators.minLength(2),
+      Validators.maxLength(30),
+      Validators.pattern(/^[a-z]+$/i)
+    ]);
+    this.form.controls["login"].setValidators([
+      Validators.minLength(8),
+      Validators.maxLength(30)
+    ]);
+    this.form.controls["password"].setValidators([
+      Validators.minLength(8),
+      Validators.maxLength(30),
+      Validators.pattern( /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-z, 0-9-_!/?&*#]+$/)
+    ]);
+
   }
 
   ngOnDestroy(): void {

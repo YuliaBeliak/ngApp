@@ -3,25 +3,36 @@
     <mat-form-field>
       <input matInput formControlName="firstName" placeholder="First Name" [required]="!user">
       <mat-error *ngIf="form.get('firstName').invalid && !user">
-        First Name is <strong>required</strong>
+        <div *ngIf="form.get('firstName').errors.minlength">First Name must be at least 2 characters long</div>
+        <div *ngIf="form.get('firstName').errors.required">First Name is <strong>required</strong></div>
+        <div *ngIf="form.get('firstName').errors.maxlength">First Name length must not exceed more than 30 characters</div>
+        <div *ngIf="form.get('firstName').errors.pattern">First Name must contain only latin letters</div>
       </mat-error>
     </mat-form-field>
     <mat-form-field>
       <input matInput formControlName="lastName" placeholder="Last Name" [required]="!user">
       <mat-error *ngIf="form.get('lastName').invalid && !user">
-        Last Name is <strong>required</strong>
+        <div *ngIf="form.get('lastName').errors.minlength">Last Name must be at least 2 characters long</div>
+        <div *ngIf="form.get('lastName').errors.required">Last Name is <strong>required</strong></div>
+        <div *ngIf="form.get('lastName').errors.maxlength">Last Name length must not exceed more than 30 characters</div>
+        <div *ngIf="form.get('lastName').errors.pattern">Last Name must contain only latin letters</div>
       </mat-error>
     </mat-form-field>
     <mat-form-field>
       <input matInput formControlName="login" placeholder="Login" [required]="!user">
       <mat-error *ngIf="form.get('login').invalid && !user">
-        Login is <strong>required</strong>
+        <div *ngIf="form.get('login').errors.minlength">Login must be at least 8 characters long</div>
+        <div *ngIf="form.get('login').errors.required">Login is <strong>required</strong></div>
+        <div *ngIf="form.get('login').errors.maxlength">Login length must not exceed more than 30 characters</div>
       </mat-error>
     </mat-form-field>
     <mat-form-field>
       <input matInput formControlName="password" placeholder="Password" type="password" [required]="!user">
       <mat-error *ngIf="form.get('password').invalid && !user">
-        Login is <strong>required</strong>
+        <div *ngIf="form.get('password').errors.minlength">Password must be at least 8 characters long</div>
+        <div *ngIf="form.get('password').errors.required">Password is <strong>required</strong></div>
+        <div *ngIf="form.get('password').errors.maxlength">Password length must not exceed more than 30 characters</div>
+        <div *ngIf="form.get('password').errors.pattern">Password must contain at least 1 capital letter, 1 lower case letter qnd 1 digital</div>
       </mat-error>
     </mat-form-field>
     <mat-form-field>
@@ -31,6 +42,9 @@
           {{city.title}}
         </mat-option>
       </mat-select>
+      <mat-error *ngIf="form.get('city').invalid && !user">
+        <div *ngIf="form.get('city').errors.required">City is <strong>required</strong></div>
+      </mat-error>
     </mat-form-field>
     <div class="button-set">
       <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || form.pending">Submit</button>
