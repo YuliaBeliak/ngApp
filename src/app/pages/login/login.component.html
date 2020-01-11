@@ -16,9 +16,7 @@
       <button mat-button color="primary" type="submit" [disabled]="form.invalid || form.pending">Sign in</button>
       <button mat-button color="accent" type="button" routerLink="/signup">Sign Up</button>
     </div>
-    <div class="error" *ngIf="error">
-      <small>{{error}}</small>
-    </div>
+    <app-error-message *ngIf="error" [error]="error"></app-error-message>
   </form>
 </mat-card>
 

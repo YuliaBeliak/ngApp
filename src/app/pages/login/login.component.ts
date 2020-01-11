@@ -4,6 +4,7 @@ import {UserService} from "../../services/users/user.service";
 import {AuthService} from "../../services/auth/auth.service";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-login',
@@ -32,14 +33,24 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   submit() {
     this.subs.push(
-      this.authService.login(this.form.value).subscribe((res) => {
-        this.authService.isAuthenticated = true;
-        this.authService.loggedUser = res.user[0];
-        this.authService.saveToken(res.tokens.access, 'access');
-        this.authService.saveToken(res.tokens.refresh, 'refresh');
-        this.router.navigate(['me']);
-      })
+      this.authService.login(this.form.value)
+        .subscribe(
+          (res) => {
+            this.authService.isAuthenticated = true;
+            this.authService.loggedUser = res.user[0];
+            this.authService.saveToken(res.tokens.access, 'access');
+            this.authService.saveToken(res.tokens.refresh, 'refresh');
+            this.router.navigate(['me']);
+          },
+          (err: HttpErrorResponse) => {
+            this.showError(err.error.error || err.statusText)
+          })
     );
+  }
+
+  showError(err: string) {
+    this.error = err;
+    setTimeout(() => this.error = null, 3000);
   }
 
   ngOnDestroy(): void {

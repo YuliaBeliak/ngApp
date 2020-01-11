@@ -19,6 +19,7 @@ import {AuthInterceptor} from "./shared/interceptors/auth.interceptor";
 import { EditComponent } from './pages/edit/edit.component';
 import { UserFormComponent } from './components/user-form/user-form.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { ErrorMessageComponent } from './components/error-message/error-message.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -38,7 +39,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     MeComponent,
     EditComponent,
     UserFormComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ErrorMessageComponent
   ],
   imports: [
     BrowserModule,

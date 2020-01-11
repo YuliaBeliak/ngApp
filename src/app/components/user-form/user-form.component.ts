@@ -8,6 +8,7 @@ import {Router} from "@angular/router";
 import {User} from "../../interfaces/users/user";
 import {map} from "rxjs/operators";
 import {AuthService} from "../../services/auth/auth.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-user-form',
@@ -20,6 +21,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
   cities: Observable<City[]>;
   form: FormGroup;
+  private error: string;
   private subs: Subscription[] = [];
 
   constructor(
@@ -94,9 +96,15 @@ export class UserFormComponent implements OnInit, OnDestroy {
   createNewUser() {
     this.subs.push(
       this.userService.signUp(this.form.value)
-        .subscribe(() => {
-          this.router.navigate(['/me'])
-        })
+        .subscribe(
+          () => {
+            this.router.navigate(['/me'])
+          },
+          (err: HttpErrorResponse) => {
+            console.log(err);
+            this.showError(err.error.error)
+          }
+        )
     );
   }
 
@@ -136,9 +144,14 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.form.controls["password"].setValidators([
       Validators.minLength(8),
       Validators.maxLength(30),
-      Validators.pattern( /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-z, 0-9-_!/?&*#]+$/)
+      Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-z, 0-9-_!/?&*#]+$/)
     ]);
 
+  }
+
+  showError(err: string) {
+    this.error = err;
+    setTimeout(() => this.error = null, 3000);
   }
 
   ngOnDestroy(): void {
