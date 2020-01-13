@@ -15,13 +15,13 @@ export class UserDetailComponent implements OnInit {
 
   ngOnInit() { }
 
-  isMe(): boolean {
+  get isMe(): boolean {
     if (this.user) {
-      return this.user._id === this.getLoggedUser()._id;
+      return this.user._id === this.loggedUser._id;
     }
   }
 
-  getLoggedUser(): User {
-    return this.authService.getLoggedUser();
+  get loggedUser(): User {
+    return this.authService.loggedUser;
   }
 }

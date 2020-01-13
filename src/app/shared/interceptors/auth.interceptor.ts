@@ -2,7 +2,7 @@ import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest}
 import {Observable} from "rxjs";
 import {AuthService} from "../../services/auth/auth.service";
 import {Injectable} from "@angular/core";
-import {catchError, concatMap} from "rxjs/operators";
+import {catchError, concatMap, switchMap} from "rxjs/operators";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -24,7 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
               }
             }
             return this.authService.refreshAccessToken().pipe(
-              concatMap(() => next.handle(this.adjustRequestHeader(req)))
+              switchMap(() => next.handle(this.adjustRequestHeader(req)))
             );
           })
         )
@@ -41,6 +41,6 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   getIsAuthenticated(): boolean {
-    return this.authService.getIsAuthenticated();
+    return this.authService.isAuthenticated;
   }
 }

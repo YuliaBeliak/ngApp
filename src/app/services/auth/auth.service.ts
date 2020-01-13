@@ -7,7 +7,7 @@ import {Router} from "@angular/router";
 import {Token} from "../../interfaces/token/token";
 import {LoginRes} from "../../interfaces/login/login-res";
 import {User} from "../../interfaces/users/user";
-import {map} from "rxjs/operators";
+import {tap} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +15,8 @@ import {map} from "rxjs/operators";
 export class AuthService {
 
   private usersUrl = 'http://localhost:3000/users';
-  private isAuthenticated: boolean;
-  private loggedUser: User;
+  private _isAuthenticated: boolean;
+  private _loggedUser: User;
 
   constructor(
     private http: HttpClient,
@@ -30,7 +30,7 @@ export class AuthService {
   }
 
   logout() {
-    this.setIsAuthenticated(false);
+    this.isAuthenticated = false;
     this.removeToken('access');
     this.removeToken('refresh');
     this.router.navigate(['login'])
@@ -55,25 +55,25 @@ export class AuthService {
   refreshAccessToken() {
     return this.http.post<Token>(`${this.usersUrl}/token`, this.getToken('refresh'))
       .pipe(
-        map(value => {
+        tap(value => {
           this.saveToken(value, 'access');
         })
       );
   }
 
-  getIsAuthenticated() {
-    return this.isAuthenticated;
+  get isAuthenticated() {
+    return this._isAuthenticated;
   }
 
-  getLoggedUser() {
-    return this.loggedUser;
+  get loggedUser() {
+    return this._loggedUser;
   }
 
-  setIsAuthenticated(state: boolean) {
-    this.isAuthenticated = state;
+  set isAuthenticated(state: boolean) {
+    this._isAuthenticated = state;
   }
 
-  setLoggedUser(user: User) {
-    this.loggedUser = user;
+  set loggedUser(user: User) {
+    this._loggedUser = user;
   }
 }

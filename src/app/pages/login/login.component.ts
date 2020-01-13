@@ -37,8 +37,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.authService.login(this.form.value)
         .subscribe(
           (res) => {
-            this.setIsAuthenticated(true);
-            this.setLoggedUser(res.user[0]);
+            this.isAuthenticated = true;
+            this.loggedUser = res.user[0];
             this.authService.saveToken(res.tokens.access, 'access');
             this.authService.saveToken(res.tokens.refresh, 'refresh');
             this.router.navigate(['me']);
@@ -58,11 +58,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subs.forEach(el => el.unsubscribe());
   }
 
-  setIsAuthenticated(state: boolean): void {
-    this.authService.setIsAuthenticated(state);
+  set isAuthenticated(state: boolean) {
+    this.authService.isAuthenticated = state;
   }
 
-  setLoggedUser(user: User):void {
-    this.authService.setLoggedUser(user);
+  set loggedUser(user: User) {
+    this.authService.loggedUser = user;
   }
 }

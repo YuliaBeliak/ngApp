@@ -1,7 +1,7 @@
 <mat-toolbar color="primary" class="navbar">
   <div class="logo"><a routerLink="/me">SomeApp</a></div>
   <nav>
-    <div *ngIf="getIsAuthenticated(); else elseBlock">
+    <div *ngIf="IsAuthenticated; else elseBlock">
       <a routerLink="/me" routerLinkActive="active">Home</a>
       <a routerLink="/users" routerLinkActive="active">Users</a>
       <a (click)="logout()">Log Out</a>

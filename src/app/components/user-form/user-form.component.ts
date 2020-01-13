@@ -87,7 +87,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.subs.push(
       this.userService.updateUser(this.user._id, userDataToUpdate)
         .subscribe((res: User) => {
-          this.setLoggedUser(res);
+          this.loggedUser = res;
           this.router.navigate(['/me'])
         })
     );
@@ -154,8 +154,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
     setTimeout(() => this.error = null, 3000);
   }
 
-  setLoggedUser(user: User):void {
-    this.authService.setLoggedUser(user);
+  set loggedUser(user: User) {
+    this.authService.loggedUser = user;
   }
 
   getCities(): Observable<City[]> {

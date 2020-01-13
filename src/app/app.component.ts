@@ -10,8 +10,8 @@ export class AppComponent {
 
   constructor(private authService: AuthService) {}
 
-  getIsAuthenticated(): boolean {
-    return this.authService.getIsAuthenticated();
+  get IsAuthenticated(): boolean {
+    return this.authService.isAuthenticated;
   }
 
   logout(): void {
