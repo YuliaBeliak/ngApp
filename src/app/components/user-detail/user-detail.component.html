@@ -2,8 +2,10 @@
   <mat-card class="avatar">
     <img mat-card-image [src]="user?.pic ? user?.pic : '../../../assets/img/default-profile.png'" alt="User Pic" class="user-pick">
     <mat-card-actions>
-      <button mat-button *ngIf="!isMe()">Add To Friends</button>
-      <button mat-button *ngIf="isMe()" routerLink="/edit">Edit</button>
+      <button mat-button *ngIf="isMe(); else elseBlock" routerLink="/edit">Edit</button>
+      <ng-template #elseBlock>
+        <button mat-button>Add To Friends</button>
+      </ng-template>
     </mat-card-actions>
   </mat-card>
   <mat-card class="main-info">
