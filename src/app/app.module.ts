@@ -1,10 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {NgModule, Provider} from '@angular/core';
+import { NgModule, Provider } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from "@angular/forms";
 
 import { AppRoutingModule } from './app-routing.module';
-import { MaterialModule } from "./modules/material/material.module";
 
 import { AppComponent } from './app.component';
 import { UsersComponent } from './pages/users/users.component';
@@ -15,11 +14,13 @@ import { LoginComponent } from './pages/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SignupComponent } from './pages/signup/signup.component';
 import { MeComponent } from './pages/me/me.component';
-import {AuthInterceptor} from "./shared/interceptors/auth.interceptor";
+import { AuthInterceptor } from "./shared/interceptors/auth.interceptor";
 import { EditComponent } from './pages/edit/edit.component';
 import { UserFormComponent } from './components/user-form/user-form.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ErrorMessageComponent } from './components/error-message/error-message.component';
+
+import { materialModules} from "./shared/material/material.imports";
 
 const INTERCEPTOR_PROVIDERS: Provider[] = [{
   provide: HTTP_INTERCEPTORS,
@@ -48,7 +49,7 @@ const INTERCEPTOR_PROVIDERS: Provider[] = [{
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    MaterialModule
+    materialModules
   ],
   providers: [INTERCEPTOR_PROVIDERS],
   bootstrap: [AppComponent]

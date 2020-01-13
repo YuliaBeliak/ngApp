@@ -1,6 +1,3 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
 import {MatButtonModule} from "@angular/material";
 import {MatToolbarModule} from "@angular/material";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -11,7 +8,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
 import {MatGridListModule} from '@angular/material/grid-list';
 
-const material = [
+export const materialModules = [
   MatButtonModule,
   MatToolbarModule,
   MatFormFieldModule,
@@ -22,14 +19,3 @@ const material = [
   MatListModule,
   MatGridListModule
 ];
-
-
-@NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    material
-  ],
-  exports: [material]
-})
-export class MaterialModule { }
