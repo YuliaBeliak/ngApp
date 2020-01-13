@@ -17,7 +17,11 @@ export class UserDetailComponent implements OnInit {
 
   isMe(): boolean {
     if (this.user) {
-      return this.user._id === this.authService.loggedUser._id;
+      return this.user._id === this.getLoggedUser()._id;
     }
+  }
+
+  getLoggedUser(): User {
+    return this.authService.getLoggedUser();
   }
 }

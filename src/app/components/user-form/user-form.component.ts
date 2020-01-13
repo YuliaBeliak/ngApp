@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit, ɵLContext} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription} from "rxjs";
 import {City} from "../../interfaces/cities/city";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
@@ -33,7 +33,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.cities = this.citiesService.getCities();
+    this.cities = this.getCities();
     this.createInitialForm();
     if (this.user) {
       this.setUserCity();
@@ -87,7 +87,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.subs.push(
       this.userService.updateUser(this.user._id, userDataToUpdate)
         .subscribe((res: User) => {
-          this.authService.loggedUser = res;
+          this.setLoggedUser(res);
           this.router.navigate(['/me'])
         })
     );
@@ -152,6 +152,14 @@ export class UserFormComponent implements OnInit, OnDestroy {
   showError(err: string) {
     this.error = err;
     setTimeout(() => this.error = null, 3000);
+  }
+
+  setLoggedUser(user: User):void {
+    this.authService.setLoggedUser(user);
+  }
+
+  getCities(): Observable<City[]> {
+    return this.citiesService.getCities();
   }
 
   ngOnDestroy(): void {

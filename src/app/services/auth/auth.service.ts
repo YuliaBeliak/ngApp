@@ -15,8 +15,8 @@ import {map} from "rxjs/operators";
 export class AuthService {
 
   private usersUrl = 'http://localhost:3000/users';
-  public isAuthenticated: boolean;
-  public loggedUser: User;
+  private isAuthenticated: boolean;
+  private loggedUser: User;
 
   constructor(
     private http: HttpClient,
@@ -30,11 +30,10 @@ export class AuthService {
   }
 
   logout() {
-    this.isAuthenticated = false;
+    this.setIsAuthenticated(false);
     this.removeToken('access');
     this.removeToken('refresh');
     this.router.navigate(['login'])
-
   }
 
   saveToken(token: Token, tokenName: string): void {
@@ -60,5 +59,21 @@ export class AuthService {
           this.saveToken(value, 'access');
         })
       );
+  }
+
+  getIsAuthenticated() {
+    return this.isAuthenticated;
+  }
+
+  getLoggedUser() {
+    return this.loggedUser;
+  }
+
+  setIsAuthenticated(state: boolean) {
+    this.isAuthenticated = state;
+  }
+
+  setLoggedUser(user: User) {
+    this.loggedUser = user;
   }
 }

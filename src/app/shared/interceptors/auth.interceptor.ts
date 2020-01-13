@@ -13,7 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.authService.isAuthenticated || req.url.includes('token')) {
+    if (this.getIsAuthenticated() || req.url.includes('token')) {
       return next.handle(this.adjustRequestHeader(req))
         .pipe(
           catchError((err: HttpErrorResponse) => {
@@ -38,5 +38,9 @@ export class AuthInterceptor implements HttpInterceptor {
     return req.clone({
       headers: req.headers.append('Authorization', `Bearer ${this.authService.getToken('access').token}`)
     });
+  }
+
+  getIsAuthenticated(): boolean {
+    return this.authService.getIsAuthenticated();
   }
 }

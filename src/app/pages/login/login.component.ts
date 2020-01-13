@@ -5,6 +5,7 @@ import {AuthService} from "../../services/auth/auth.service";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
+import {User} from "../../interfaces/users/user";
 
 @Component({
   selector: 'app-login',
@@ -36,8 +37,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.authService.login(this.form.value)
         .subscribe(
           (res) => {
-            this.authService.isAuthenticated = true;
-            this.authService.loggedUser = res.user[0];
+            this.setIsAuthenticated(true);
+            this.setLoggedUser(res.user[0]);
             this.authService.saveToken(res.tokens.access, 'access');
             this.authService.saveToken(res.tokens.refresh, 'refresh');
             this.router.navigate(['me']);
@@ -55,5 +56,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.forEach(el => el.unsubscribe());
+  }
+
+  setIsAuthenticated(state: boolean): void {
+    this.authService.setIsAuthenticated(state);
+  }
+
+  setLoggedUser(user: User):void {
+    this.authService.setLoggedUser(user);
   }
 }
