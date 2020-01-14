@@ -42,7 +42,7 @@
     <mat-form-field>
       <mat-label>City</mat-label>
       <mat-select formControlName="city" [required]="!user">
-        <mat-option *ngFor="let city of cities | async" [value]="city._id">
+        <mat-option *ngFor="let city of cities" [value]="city._id">
           {{city.title}}
         </mat-option>
       </mat-select>

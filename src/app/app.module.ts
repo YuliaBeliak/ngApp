@@ -21,6 +21,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ErrorMessageComponent } from './components/error-message/error-message.component';
 
 import { materialModules} from "./shared/material/material.imports";
+import {UserFormContainer} from "./components/user-form/user-form.container";
 
 const INTERCEPTOR_PROVIDERS: Provider[] = [{
   provide: HTTP_INTERCEPTORS,
@@ -40,6 +41,7 @@ const INTERCEPTOR_PROVIDERS: Provider[] = [{
     MeComponent,
     EditComponent,
     UserFormComponent,
+    UserFormContainer,
     NotFoundComponent,
     ErrorMessageComponent
   ],

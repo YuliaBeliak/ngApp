@@ -15,4 +15,8 @@ export class CitiesService {
   getCities(): Observable<City[]> {
     return this.http.get<City[]>(this.citiesUrl);
   }
+
+  getCity(id: string): Observable<City> {
+    return  this.http.get<City>(`${this.citiesUrl}/${id}`);
+  }
 }

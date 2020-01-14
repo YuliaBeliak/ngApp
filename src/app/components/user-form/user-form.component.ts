@@ -1,12 +1,11 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {Observable, Subscription} from "rxjs";
+import {Component, DoCheck, Input, OnDestroy, OnInit} from '@angular/core';
+import {Subscription} from "rxjs";
 import {City} from "../../interfaces/cities/city";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CitiesService} from "../../services/cities/cities.service";
 import {UserService} from "../../services/users/user.service";
 import {Router} from "@angular/router";
 import {User} from "../../interfaces/users/user";
-import {map} from "rxjs/operators";
 import {AuthService} from "../../services/auth/auth.service";
 import {HttpErrorResponse} from "@angular/common/http";
 
@@ -15,11 +14,12 @@ import {HttpErrorResponse} from "@angular/common/http";
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.css']
 })
-export class UserFormComponent implements OnInit, OnDestroy {
+export class UserFormComponent implements OnInit, OnDestroy, DoCheck {
 
   @Input() user: User;
+  @Input() cities: City[];
+  @Input() currentUserCityId: City;
 
-  cities: Observable<City[]>;
   form: FormGroup;
   private error: string;
   private subs: Subscription[] = [];
@@ -29,18 +29,18 @@ export class UserFormComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private router: Router,
     private authService: AuthService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
-    this.cities = this.getCities();
     this.createInitialForm();
     if (this.user) {
-      this.setUserCity();
-      this.prefillFormForEdit();
+      this.prefillFormForEdit()
     } else {
       this.addValidatorsForSignUpForm();
     }
+  }
+
+  ngDoCheck() {
   }
 
   submit() {
@@ -49,19 +49,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
     } else {
       this.createNewUser();
     }
-  }
-
-  setUserCity() {
-    this.subs.push(
-      this.cities.pipe(
-        map(cities => {
-          let userCity = cities.filter(el => el.title === this.user.city[0]);
-          this.form.patchValue({
-            city: userCity[0]._id
-          });
-        }),
-      ).subscribe()
-    );
   }
 
   removeAccount() {
@@ -87,7 +74,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.subs.push(
       this.userService.updateUser(this.user._id, userDataToUpdate)
         .subscribe((res: User) => {
-          this.loggedUser = res;
+          this.authService.loggedUser = res;
           this.router.navigate(['/me'])
         })
     );
@@ -101,7 +88,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
             this.router.navigate(['/me'])
           },
           (err: HttpErrorResponse) => {
-            console.log(err);
             this.showError(err.error.error)
           }
         )
@@ -123,7 +109,14 @@ export class UserFormComponent implements OnInit, OnDestroy {
       firstName: this.user.firstName,
       lastName: this.user.lastName,
       login: this.user.login
-    })
+    });
+
+    //must be re-written!!!
+
+    setTimeout( () => this.form.patchValue({
+      city: this.currentUserCityId
+    }),100);
+
   }
 
   addValidatorsForSignUpForm() {
@@ -152,14 +145,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
   showError(err: string) {
     this.error = err;
     setTimeout(() => this.error = null, 3000);
-  }
-
-  set loggedUser(user: User) {
-    this.authService.loggedUser = user;
-  }
-
-  getCities(): Observable<City[]> {
-    return this.citiesService.getCities();
   }
 
   ngOnDestroy(): void {

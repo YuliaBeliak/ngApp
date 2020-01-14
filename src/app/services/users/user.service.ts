@@ -18,12 +18,12 @@ export class UserService {
     return this.http.get<User[]>(this.usersUrl);
   }
 
-  getUser(id: string): Observable<User[]> {
-    return this.http.get<User[]>(`${this.usersUrl}/${id}`);
+  getUser(id: string): Observable<User> {
+    return this.http.get<User>(`${this.usersUrl}/${id}`);
   }
 
-  signUp(formValue: User): Observable<User[]> {
-    return this.http.post<User[]>(this.usersUrl, formValue);
+  signUp(formValue: User): Observable<User> {
+    return this.http.post<User>(this.usersUrl, formValue);
   }
 
   updateUser(id: string, formValue: User): Observable<User> {

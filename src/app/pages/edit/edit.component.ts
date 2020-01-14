@@ -14,7 +14,7 @@ export class EditComponent implements OnInit {
   ngOnInit() {
   }
 
-  getLoggedUser(): User {
+  get loggedUser(): User {
     return this.authService.loggedUser;
   }
 

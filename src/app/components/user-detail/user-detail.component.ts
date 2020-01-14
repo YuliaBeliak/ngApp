@@ -17,11 +17,16 @@ export class UserDetailComponent implements OnInit {
 
   get isMe(): boolean {
     if (this.user) {
-      return this.user._id === this.loggedUser._id;
+      return this.user._id === this.authService.loggedUser._id;
     }
   }
 
-  get loggedUser(): User {
-    return this.authService.loggedUser;
+  get userPic(): string {
+    if (this.user) {
+      if (this.user.pic) {
+        return this.user.pic;
+      }
+    }
+    return '../../../assets/img/default-profile.png';
   }
 }
