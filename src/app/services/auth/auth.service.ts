@@ -6,8 +6,12 @@ import {UserService} from "../users/user.service";
 import {Router} from "@angular/router";
 import {Token} from "../../interfaces/token/token";
 import {LoginRes} from "../../interfaces/login/login-res";
-import {User} from "../../interfaces/users/user";
 import {tap} from "rxjs/operators";
+import {select, Store} from "@ngrx/store";
+import {isLoggedIn, loggedUser} from "../../pages/login/auth.selectors";
+import {AuthState} from "../../pages/login/auth.state";
+import {User} from "../../interfaces/users/user";
+import {LogOut} from "../../pages/login/auth.actions";
 
 @Injectable({
   providedIn: 'root'
@@ -15,13 +19,12 @@ import {tap} from "rxjs/operators";
 export class AuthService {
 
   private usersUrl = 'http://localhost:3000/users';
-  private _isAuthenticated: boolean;
-  private _loggedUser: User;
 
   constructor(
     private http: HttpClient,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private store: Store<AuthState>
   ) {
   }
 
@@ -30,7 +33,7 @@ export class AuthService {
   }
 
   logout() {
-    this.isAuthenticated = false;
+    this.store.dispatch(new LogOut());
     this.removeToken('access');
     this.removeToken('refresh');
     this.router.navigate(['login'])
@@ -61,19 +64,15 @@ export class AuthService {
       );
   }
 
-  get isAuthenticated() {
-    return this._isAuthenticated;
+  get loggedUser$(): Observable<User> {
+    return this.store.pipe(
+      select(loggedUser)
+    );
   }
 
-  get loggedUser() {
-    return this._loggedUser;
-  }
-
-  set isAuthenticated(state: boolean) {
-    this._isAuthenticated = state;
-  }
-
-  set loggedUser(user: User) {
-    this._loggedUser = user;
+  get isAuthenticated$(): Observable<boolean> {
+    return this.store.pipe(
+      select(isLoggedIn)
+    );
   }
 }

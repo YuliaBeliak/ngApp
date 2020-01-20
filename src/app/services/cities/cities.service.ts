@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import {City} from "../../interfaces/cities/city";
 import {HttpClient} from "@angular/common/http";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,17 @@ export class CitiesService {
     return this.http.get<City[]>(this.citiesUrl);
   }
 
-  getCity(id: string): Observable<City> {
-    return  this.http.get<City>(`${this.citiesUrl}/${id}`);
+  getCityIdByTitle(cityTitle: string): Observable<string> {
+    return this.getCities().pipe(
+      map(cities => cities.find(city => city.title === cityTitle)._id)
+    )
   }
+
+  getCityTitleById(cityId: string): Observable<string> {
+    return this.getCities().pipe(
+      map(cities => cities.find(city => city._id === cityId).title)
+    )
+  }
+
+
 }

@@ -33,9 +33,7 @@ export class UserFormContainer implements OnInit {
   }
 
   setCurrentUserCity() {
-    return this.cities.pipe(
-      map(cities => cities.find(city => city.title === this.user.city[0])._id)
-    )
+    return this.citiesService.getCityIdByTitle(this.user.city);
   }
 
 }

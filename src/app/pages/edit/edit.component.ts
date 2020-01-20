@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../services/auth/auth.service";
 import {User} from "../../interfaces/users/user";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-edit',
@@ -14,8 +15,8 @@ export class EditComponent implements OnInit {
   ngOnInit() {
   }
 
-  get loggedUser(): User {
-    return this.authService.loggedUser;
+  get loggedUser$(): Observable<User> {
+    return this.authService.loggedUser$;
   }
 
 }

@@ -8,6 +8,9 @@ import {Router} from "@angular/router";
 import {User} from "../../interfaces/users/user";
 import {AuthService} from "../../services/auth/auth.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {Store} from "@ngrx/store";
+import {AuthState} from "../../pages/login/auth.state";
+import {UpdateUser} from "../../pages/login/auth.actions";
 
 @Component({
   selector: 'app-user-form',
@@ -28,7 +31,8 @@ export class UserFormComponent implements OnInit, OnDestroy, DoCheck {
     private citiesService: CitiesService,
     private userService: UserService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private store: Store<AuthState>
   ) {}
 
   ngOnInit() {
@@ -72,9 +76,11 @@ export class UserFormComponent implements OnInit, OnDestroy, DoCheck {
       }
     }
     this.subs.push(
+      this.citiesService.getCityTitleById(userDataToUpdate.city)
+        .subscribe(value => userDataToUpdate.city = value),
       this.userService.updateUser(this.user._id, userDataToUpdate)
         .subscribe((res: User) => {
-          this.authService.loggedUser = res;
+          this.store.dispatch(new UpdateUser(userDataToUpdate));
           this.router.navigate(['/me'])
         })
     );
@@ -111,7 +117,7 @@ export class UserFormComponent implements OnInit, OnDestroy, DoCheck {
       login: this.user.login
     });
 
-    //must be re-written!!!
+    //must be re-written!!! todo
 
     setTimeout( () => this.form.patchValue({
       city: this.currentUserCityId

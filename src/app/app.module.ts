@@ -22,6 +22,10 @@ import { ErrorMessageComponent } from './components/error-message/error-message.
 
 import { materialModules} from "./shared/material/material.imports";
 import {UserFormContainer} from "./components/user-form/user-form.container";
+import {StoreModule} from "@ngrx/store";
+import {authReducer} from "./pages/login/auth.reducer";
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 const INTERCEPTOR_PROVIDERS: Provider[] = [{
   provide: HTTP_INTERCEPTORS,
@@ -51,7 +55,9 @@ const INTERCEPTOR_PROVIDERS: Provider[] = [{
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    materialModules
+    materialModules,
+    StoreModule.forRoot({'auth': authReducer}),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [INTERCEPTOR_PROVIDERS],
   bootstrap: [AppComponent]

@@ -7,13 +7,18 @@ import {catchError, concatMap, switchMap} from "rxjs/operators";
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
+  private isAuthenticated: boolean;
+
   constructor(
     private authService: AuthService
   ) {
+    this.authService.isAuthenticated$.subscribe(value => {
+      this.isAuthenticated = value;
+    })
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.getIsAuthenticated() || req.url.includes('token')) {
+    if (this.isAuthenticated || req.url.includes('token')) {
       return next.handle(this.adjustRequestHeader(req))
         .pipe(
           catchError((err: HttpErrorResponse) => {
@@ -38,9 +43,5 @@ export class AuthInterceptor implements HttpInterceptor {
     return req.clone({
       headers: req.headers.append('Authorization', `Bearer ${this.authService.getToken('access').token}`)
     });
-  }
-
-  getIsAuthenticated(): boolean {
-    return this.authService.isAuthenticated;
   }
 }
