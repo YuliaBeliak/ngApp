@@ -10,7 +10,7 @@ import {AuthService} from "../../services/auth/auth.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Store} from "@ngrx/store";
 import {AuthState} from "../../pages/login/auth.state";
-import {DeleteUser, UpdateUser} from "../../pages/login/auth.actions";
+import {CreateUser, DeleteUser, UpdateUser} from "../../pages/login/auth.actions";
 
 @Component({
   selector: 'app-user-form',
@@ -92,6 +92,7 @@ export class UserFormComponent implements OnInit, OnDestroy, DoCheck {
       this.userService.signUp(this.form.value)
         .subscribe(
           () => {
+            this.store.dispatch(new CreateUser());
             this.router.navigate(['/me'])
           },
           (err: HttpErrorResponse) => {

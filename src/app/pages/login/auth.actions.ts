@@ -1,11 +1,13 @@
 import {Action} from "@ngrx/store";
 import {LoginRes} from "../../interfaces/login/login-res";
+import {User} from "../../interfaces/users/user";
 
 export const AuthActionTypes = {
   GET_LOGIN_INFO: 'GET_LOGIN_INFO',
   LOG_OUT: 'LOG_OUT',
   UPDATE_USER: 'UPDATE_USER',
-  DELETE_USER: 'DELETE_USER'
+  DELETE_USER: 'DELETE_USER',
+  CREATE_USER: 'CREATE_USER'
 };
 
 export class GetLoginInfo implements Action {
@@ -26,10 +28,16 @@ export class UpdateUser implements Action {
   constructor(public payload: any) {}
 }
 
-export class DeleteUser implements Action{
+export class DeleteUser implements Action {
   readonly type = AuthActionTypes.DELETE_USER;
 
   constructor(public payload?: any) {}
 }
 
-export type AuthActions = GetLoginInfo | LogOut | UpdateUser | DeleteUser;
+export class CreateUser implements Action {
+  readonly type = AuthActionTypes.CREATE_USER;
+
+  constructor(public payload?: User) {}
+}
+
+export type AuthActions = GetLoginInfo | LogOut | UpdateUser | DeleteUser | CreateUser;

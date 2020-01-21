@@ -37,6 +37,11 @@ export function authReducer(state = initialAuthState, action: AuthActions): Auth
         ...state,
         ...initialAuthState
       };
+    case AuthActionTypes.CREATE_USER:
+      return {
+        ...state,
+        ...initialAuthState
+      };
     default:
       return state;
   }
