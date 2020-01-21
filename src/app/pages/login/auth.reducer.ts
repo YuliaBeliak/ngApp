@@ -32,6 +32,11 @@ export function authReducer(state = initialAuthState, action: AuthActions): Auth
           ...action.payload
         }
       };
+    case AuthActionTypes.DELETE_USER:
+      return {
+        ...state,
+        ...initialAuthState
+      };
     default:
       return state;
   }
