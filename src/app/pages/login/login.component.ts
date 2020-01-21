@@ -3,12 +3,11 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../services/users/user.service";
 import {AuthService} from "../../services/auth/auth.service";
 import {Router} from "@angular/router";
-import {Observable, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
-import {User} from "../../interfaces/users/user";
 import {Store} from "@ngrx/store";
-import {AuthState} from "./auth.state";
-import {GetLoginInfo} from "./auth.actions";
+import {State} from "./user.state";
+import {GetLoginInfo} from "./user.actions";
 
 @Component({
   selector: 'app-login',
@@ -25,7 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private authService: AuthService,
     private router: Router,
-    private store: Store<AuthState>
+    private store: Store<State>
   ) {
   }
 

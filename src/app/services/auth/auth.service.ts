@@ -8,10 +8,10 @@ import {Token} from "../../interfaces/token/token";
 import {LoginRes} from "../../interfaces/login/login-res";
 import {tap} from "rxjs/operators";
 import {select, Store} from "@ngrx/store";
-import {isLoggedIn, loggedUser} from "../../pages/login/auth.selectors";
-import {AuthState} from "../../pages/login/auth.state";
+import {isLoggedIn, loggedUser} from "../../pages/login/user.selectors";
+import {State} from "../../pages/login/user.state";
 import {User} from "../../interfaces/users/user";
-import {LogOut} from "../../pages/login/auth.actions";
+import {LogOut} from "../../pages/login/user.actions";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,7 @@ export class AuthService {
     private http: HttpClient,
     private userService: UserService,
     private router: Router,
-    private store: Store<AuthState>
+    private store: Store<State>
   ) {
   }
 

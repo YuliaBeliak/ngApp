@@ -23,7 +23,7 @@ import { ErrorMessageComponent } from './components/error-message/error-message.
 import { materialModules} from "./shared/material/material.imports";
 import {UserFormContainer} from "./components/user-form/user-form.container";
 import {StoreModule} from "@ngrx/store";
-import {authReducer} from "./pages/login/auth.reducer";
+import {userReducer} from "./pages/login/user.reducer";
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 
@@ -56,7 +56,7 @@ const INTERCEPTOR_PROVIDERS: Provider[] = [{
     BrowserAnimationsModule,
     ReactiveFormsModule,
     materialModules,
-    StoreModule.forRoot({'auth': authReducer}),
+    StoreModule.forRoot({'auth': userReducer}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [INTERCEPTOR_PROVIDERS],

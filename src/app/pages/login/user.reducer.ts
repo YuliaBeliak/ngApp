@@ -1,7 +1,7 @@
-import {AuthActions, AuthActionTypes} from "./auth.actions";
-import {AuthState} from "./auth.state";
+import {UserActions, ActionTypes} from "./user.actions";
+import {State} from "./user.state";
 
-export const initialAuthState: AuthState = {
+export const initialState: State = {
   isLoggedIn: false,
   user: undefined,
   tokens: {
@@ -10,37 +10,37 @@ export const initialAuthState: AuthState = {
   }
 };
 
-export function authReducer(state = initialAuthState, action: AuthActions): AuthState {
+export function userReducer(state = initialState, action: UserActions): State {
   switch (action.type) {
-    case AuthActionTypes.GET_LOGIN_INFO:
+    case ActionTypes.GET_LOGIN_INFO:
       return {
         ...state,
         isLoggedIn: true,
         user: action.payload.user,
         tokens: action.payload.tokens
       };
-    case AuthActionTypes.LOG_OUT:
+    case ActionTypes.LOG_OUT:
       return {
         ...state,
-        ...initialAuthState
+        ...initialState
       };
-    case AuthActionTypes.UPDATE_USER:
+    case ActionTypes.UPDATE_USER:
       return {
         ...state,
         user: {
           ...state.user,
           ...action.payload
-        }
+        },
       };
-    case AuthActionTypes.DELETE_USER:
+    case ActionTypes.DELETE_USER:
       return {
         ...state,
-        ...initialAuthState
+        ...initialState
       };
-    case AuthActionTypes.CREATE_USER:
+    case ActionTypes.CREATE_USER:
       return {
         ...state,
-        ...initialAuthState
+        ...initialState
       };
     default:
       return state;

@@ -9,8 +9,8 @@ import {User} from "../../interfaces/users/user";
 import {AuthService} from "../../services/auth/auth.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Store} from "@ngrx/store";
-import {AuthState} from "../../pages/login/auth.state";
-import {CreateUser, DeleteUser, UpdateUser} from "../../pages/login/auth.actions";
+import {State} from "../../pages/login/user.state";
+import {CreateUser, DeleteUser, UpdateUser} from "../../pages/login/user.actions";
 
 @Component({
   selector: 'app-user-form',
@@ -32,7 +32,7 @@ export class UserFormComponent implements OnInit, OnDestroy, DoCheck {
     private userService: UserService,
     private router: Router,
     private authService: AuthService,
-    private store: Store<AuthState>
+    private store: Store<State>
   ) {}
 
   ngOnInit() {
