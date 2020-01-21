@@ -36,19 +36,20 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.subs.push(
-      this.authService.login(this.form.value)
-        .subscribe(
-          (res) => {
-            this.store.dispatch(new GetLoginInfo(res));
-            this.authService.saveToken(res.tokens.access, 'access');
-            this.authService.saveToken(res.tokens.refresh, 'refresh');
-            this.router.navigate(['me']);
-          },
-          (err: HttpErrorResponse) => {
-            this.showError(err.error.error || err.statusText)
-          })
-    );
+    this.store.dispatch(new GetLoginInfo(this.form.value))
+
+    // this.subs.push(
+    //   this.authService.login(this.form.value)
+    //     .subscribe(
+    //       (res) => {
+    //         this.authService.saveToken(res.tokens.access, 'access');
+    //         this.authService.saveToken(res.tokens.refresh, 'refresh');
+    //         this.router.navigate(['me']);
+    //       },
+    //       (err: HttpErrorResponse) => {
+    //         this.showError(err.error.error || err.statusText)
+    //       })
+    // );
   }
 
   showError(err: string) {

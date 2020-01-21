@@ -13,12 +13,16 @@ export const initialState: State = {
 export function userReducer(state = initialState, action: UserActions): State {
   switch (action.type) {
     case ActionTypes.GET_LOGIN_INFO:
+      return initialState;
+    case ActionTypes.GET_LOGIN_INFO_SUCCESS:
       return {
         ...state,
         isLoggedIn: true,
         user: action.payload.user,
         tokens: action.payload.tokens
       };
+    case ActionTypes.GET_LOGIN_INFO_FAILURE:
+      return initialState;
     case ActionTypes.LOG_OUT:
       return {
         ...state,

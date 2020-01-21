@@ -26,6 +26,9 @@ import {StoreModule} from "@ngrx/store";
 import {userReducer} from "./pages/login/user.reducer";
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+import { AppEffects } from './app.effects';
+import {UserEffects} from "./pages/login/user.effects";
 
 const INTERCEPTOR_PROVIDERS: Provider[] = [{
   provide: HTTP_INTERCEPTORS,
@@ -56,8 +59,9 @@ const INTERCEPTOR_PROVIDERS: Provider[] = [{
     BrowserAnimationsModule,
     ReactiveFormsModule,
     materialModules,
-    StoreModule.forRoot({'auth': userReducer}),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
+    StoreModule.forRoot({'user': userReducer}),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forRoot([UserEffects])
   ],
   providers: [INTERCEPTOR_PROVIDERS],
   bootstrap: [AppComponent]

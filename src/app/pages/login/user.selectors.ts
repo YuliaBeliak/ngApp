@@ -1,13 +1,15 @@
-import {createSelector} from "@ngrx/store";
+import {createFeatureSelector, createSelector} from "@ngrx/store";
+import {State} from "./user.state";
+import {User} from "../../interfaces/users/user";
 
-export const selectAuthState = state => state.auth;
+export const getUserState = createFeatureSelector<State>('user');
 
 export const isLoggedIn = createSelector(
-  selectAuthState,
-  user => user.isLoggedIn
+  getUserState,
+  state => state ? state.isLoggedIn : false
 );
 
 export const loggedUser = createSelector(
-  selectAuthState,
-  user => user.user
+  getUserState,
+  state => state ? state.user : {} as User
 );
