@@ -10,7 +10,7 @@ import {AuthService} from "../../services/auth/auth.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Store} from "@ngrx/store";
 import {State} from "../../pages/login/user.state";
-import {CreateUser, DeleteUser, UpdateUser} from "../../pages/login/user.actions";
+import {CreateUser, DeleteUser, GetUpdateUser} from "../../pages/login/user.actions";
 
 @Component({
   selector: 'app-user-form',
@@ -76,15 +76,7 @@ export class UserFormComponent implements OnInit, OnDestroy, DoCheck {
         delete userDataToUpdate[key]
       }
     }
-    this.subs.push(
-      this.citiesService.getCityTitleById(userDataToUpdate.city)
-        .subscribe(value => userDataToUpdate.city = value),
-      this.userService.updateUser(this.user._id, userDataToUpdate)
-        .subscribe((res: User) => {
-          this.store.dispatch(new UpdateUser(userDataToUpdate));
-          this.router.navigate(['/me'])
-        })
-    );
+    this.store.dispatch(new GetUpdateUser({id: this.user._id, dataToUpdate: userDataToUpdate}))
   }
 
   createNewUser() {

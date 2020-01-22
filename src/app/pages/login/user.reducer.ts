@@ -24,18 +24,16 @@ export function userReducer(state = initialState, action: UserActions): State {
     case ActionTypes.GET_LOGIN_INFO_FAILURE:
       return initialState;
     case ActionTypes.LOG_OUT:
+      return initialState;
+    case ActionTypes.GET_UPDATE_USER:
+      return state;
+    case ActionTypes.GET_UPDATE_USER_SUCCESS:
       return {
         ...state,
-        ...initialState
+        user: action.payload
       };
-    case ActionTypes.UPDATE_USER:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          ...action.payload
-        },
-      };
+    case ActionTypes.GET_UPDATE_USER_FAILURE:
+      return state;
     case ActionTypes.DELETE_USER:
       return {
         ...state,
