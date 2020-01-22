@@ -1,13 +1,12 @@
 import {Component, DoCheck, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
 import {City} from "../../interfaces/cities/city";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {CitiesService} from "../../services/cities/cities.service";
 import {UserService} from "../../services/users/user.service";
 import {Router} from "@angular/router";
 import {User} from "../../interfaces/users/user";
 import {AuthService} from "../../services/auth/auth.service";
-import {HttpErrorResponse} from "@angular/common/http";
 import {Store} from "@ngrx/store";
 import {State} from "../../pages/login/user.state";
 import {CreateUser, DeleteUser, GetUpdateUser} from "../../pages/login/user.actions";
@@ -75,18 +74,7 @@ export class UserFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   createNewUser() {
-    this.subs.push(
-      this.userService.signUp(this.form.value)
-        .subscribe(
-          () => {
-            this.store.dispatch(new CreateUser());
-            this.router.navigate(['/me'])
-          },
-          (err: HttpErrorResponse) => {
-            this.showError(err.error.error)
-          }
-        )
-    );
+    this.store.dispatch(new CreateUser(this.form.value));
   }
 
   createInitialForm() {
@@ -140,6 +128,13 @@ export class UserFormComponent implements OnInit, OnDestroy, DoCheck {
   showError(err: string) {
     this.error = err;
     setTimeout(() => this.error = null, 3000);
+  }
+
+  forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const forbidden = nameRe.test(control.value);
+      return forbidden ? {'forbiddenName': {value: control.value}} : null;
+    };
   }
 
   ngOnDestroy(): void {

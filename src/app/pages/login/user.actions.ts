@@ -12,7 +12,6 @@ export const ActionTypes = {
   GET_UPDATE_USER_SUCCESS: 'GET_UPDATE_USER_SUCCESS',
   GET_UPDATE_USER_FAILURE: 'GET_UPDATE_USER_FAILURE',
   DELETE_USER: 'DELETE_USER',
-  DELETE_USER_SUCCESS: 'DELETE_USER_SUCCESS',
   DELETE_USER_FAILURE: 'DELETE_USER_FAILURE',
   CREATE_USER: 'CREATE_USER',
 };
@@ -73,13 +72,6 @@ export class DeleteUser implements Action {
   }
 }
 
-export class DeleteUserSuccess implements Action {
-  readonly type = ActionTypes.DELETE_USER_SUCCESS;
-
-  constructor(public payload?: any) {
-  }
-}
-
 export class DeleteUserFailure implements Action {
   readonly type = ActionTypes.DELETE_USER_FAILURE;
 
@@ -90,7 +82,7 @@ export class DeleteUserFailure implements Action {
 export class CreateUser implements Action {
   readonly type = ActionTypes.CREATE_USER;
 
-  constructor(public payload?: User) {
+  constructor(public payload: User) {
   }
 }
 
@@ -104,4 +96,4 @@ export type UserActions =
   | GetUpdateUserFailure
   | DeleteUser
   | DeleteUserFailure
-  | CreateUser;
+  | CreateUser

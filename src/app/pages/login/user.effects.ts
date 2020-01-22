@@ -2,10 +2,10 @@ import {Injectable} from "@angular/core";
 import {Actions, Effect, ofType} from "@ngrx/effects";
 import {UserService} from "../../services/users/user.service";
 import {Router} from "@angular/router";
-import {catchError, map, switchMap, tap} from "rxjs/operators";
+import {catchError, switchMap} from "rxjs/operators";
 import {of} from "rxjs";
 import {
-  ActionTypes, DeleteUser, DeleteUserFailure,
+  ActionTypes, CreateUser, DeleteUser, DeleteUserFailure,
   GetLoginInfo,
   GetLoginInfoFailure,
   GetLoginInfoSuccess,
@@ -13,6 +13,7 @@ import {
   GetUpdateUserSuccess, LogOut
 } from "./user.actions";
 import {AuthService} from "../../services/auth/auth.service";
+import {LoginRes} from "../../interfaces/login/login-res";
 
 @Injectable()
 export class UserEffects {
@@ -66,6 +67,19 @@ export class UserEffects {
       this.authService.logout();
       return of(new GetLoginInfoFailure())
     })
+  );
+
+  @Effect()
+  createUser = this.actions$.pipe(
+    ofType<CreateUser>(ActionTypes.CREATE_USER),
+    switchMap((action) => this.userService.signUp(action.payload)),
+    switchMap((data: LoginRes) => {
+      this.authService.saveToken(data.tokens.access, 'access');
+      this.authService.saveToken(data.tokens.refresh, 'refresh');
+      this.router.navigate(['me']);
+      return of(new GetLoginInfoSuccess(data))
+    }),
+    catchError(() => of(new GetLoginInfoFailure()))
   );
 
 

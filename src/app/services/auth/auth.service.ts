@@ -11,7 +11,6 @@ import {select, Store} from "@ngrx/store";
 import {isLoggedIn, loggedUser} from "../../pages/login/user.selectors";
 import {State} from "../../pages/login/user.state";
 import {User} from "../../interfaces/users/user";
-import {LogOut} from "../../pages/login/user.actions";
 
 @Injectable({
   providedIn: 'root'
