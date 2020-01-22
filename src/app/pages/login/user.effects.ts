@@ -2,15 +2,15 @@ import {Injectable} from "@angular/core";
 import {Actions, Effect, ofType} from "@ngrx/effects";
 import {UserService} from "../../services/users/user.service";
 import {Router} from "@angular/router";
-import {catchError, switchMap} from "rxjs/operators";
+import {catchError, map, switchMap, tap} from "rxjs/operators";
 import {of} from "rxjs";
 import {
-  ActionTypes,
+  ActionTypes, DeleteUser, DeleteUserFailure,
   GetLoginInfo,
   GetLoginInfoFailure,
   GetLoginInfoSuccess,
   GetUpdateUser, GetUpdateUserFailure,
-  GetUpdateUserSuccess
+  GetUpdateUserSuccess, LogOut
 } from "./user.actions";
 import {AuthService} from "../../services/auth/auth.service";
 
@@ -43,10 +43,29 @@ export class UserEffects {
     ofType<GetUpdateUser>(ActionTypes.GET_UPDATE_USER),
     switchMap((action) => this.userService.updateUser(action.payload.id, action.payload.dataToUpdate)),
     switchMap((data) => {
-      this.router.navigate(['/me']);
+      this.router.navigate(['me']);
       return of(new GetUpdateUserSuccess(data))
     }),
     catchError(() => of(new GetUpdateUserFailure()))
+  );
+
+  @Effect()
+  deleteUser = this.actions$.pipe(
+    ofType<DeleteUser>(ActionTypes.DELETE_USER),
+    switchMap((action) => this.userService.deleteUser(action.payload)),
+    switchMap(() => {
+      return of(new LogOut())
+    }),
+    catchError(() => of(new DeleteUserFailure()))
+  );
+
+  @Effect()
+  logOut = this.actions$.pipe(
+    ofType<LogOut>(ActionTypes.LOG_OUT),
+    switchMap(() => {
+      this.authService.logout();
+      return of(new GetLoginInfoFailure())
+    })
   );
 
 

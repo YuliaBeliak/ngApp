@@ -33,7 +33,8 @@ export class UserFormComponent implements OnInit, OnDestroy, DoCheck {
     private router: Router,
     private authService: AuthService,
     private store: Store<State>
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.createInitialForm();
@@ -56,16 +57,10 @@ export class UserFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   removeAccount() {
-    const isConfirmed = confirm('Are you sure? Do you want to remove your account?');
+    const isConfirmed = confirm('Are you sure? Do you want to deleteUser your account?');
 
     if (isConfirmed) {
-      this.subs.push(
-        this.userService.remove(this.user._id)
-          .subscribe(() => {
-            this.store.dispatch(new DeleteUser());
-            this.authService.logout();
-          })
-      );
+      this.store.dispatch(new DeleteUser(this.user._id));
     }
   };
 
@@ -113,9 +108,9 @@ export class UserFormComponent implements OnInit, OnDestroy, DoCheck {
 
     //must be re-written!!! todo
 
-    setTimeout( () => this.form.patchValue({
+    setTimeout(() => this.form.patchValue({
       city: this.currentUserCityId
-    }),100);
+    }), 100);
 
   }
 

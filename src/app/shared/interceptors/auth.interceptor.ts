@@ -2,7 +2,10 @@ import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest}
 import {Observable} from "rxjs";
 import {AuthService} from "../../services/auth/auth.service";
 import {Injectable} from "@angular/core";
-import {catchError, concatMap, switchMap} from "rxjs/operators";
+import {catchError, switchMap} from "rxjs/operators";
+import {Store} from "@ngrx/store";
+import {State} from "../../pages/login/user.state";
+import {LogOut} from "../../pages/login/user.actions";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -10,7 +13,8 @@ export class AuthInterceptor implements HttpInterceptor {
   private isAuthenticated: boolean;
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private store: Store<State>
   ) {
     this.authService.isAuthenticated$.subscribe(value => {
       this.isAuthenticated = value;
@@ -18,13 +22,13 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.isAuthenticated || req.url.includes('token')) {
+    if (this.isAuthenticated) {
       return next.handle(this.adjustRequestHeader(req))
         .pipe(
           catchError((err: HttpErrorResponse) => {
             if (err.status === 401) {
               if (!this.authService.isTokenNotExpired('refresh')) {
-                this.authService.logout();
+                this.store.dispatch(new LogOut());
                 return;
               }
             }

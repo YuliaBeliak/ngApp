@@ -30,7 +30,7 @@ export class UserService {
     return this.http.put<User>(`${this.usersUrl}/${id}`, formValue);
   }
 
-  remove(id: string): Observable<User> {
+  deleteUser(id: string): Observable<User> {
     return this.http.delete<User>(`${this.usersUrl}/${id}`);
   }
 }

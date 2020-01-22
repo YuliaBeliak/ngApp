@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "./services/auth/auth.service";
 import {Observable} from "rxjs";
+import {Store} from "@ngrx/store";
+import {State} from "./pages/login/user.state";
+import {LogOut} from "./pages/login/user.actions";
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,7 +12,8 @@ import {Observable} from "rxjs";
 export class AppComponent implements OnInit {
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private store: Store<State>
   ) {}
 
     ngOnInit(): void {
@@ -20,7 +24,6 @@ export class AppComponent implements OnInit {
   }
 
   logout(): void {
-    this
-    this.authService.logout();
+    this.store.dispatch(new LogOut());
   }
 }

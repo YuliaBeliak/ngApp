@@ -13,7 +13,7 @@ export const initialState: State = {
 export function userReducer(state = initialState, action: UserActions): State {
   switch (action.type) {
     case ActionTypes.GET_LOGIN_INFO:
-      return initialState;
+      return state;
     case ActionTypes.GET_LOGIN_INFO_SUCCESS:
       return {
         ...state,
@@ -22,7 +22,7 @@ export function userReducer(state = initialState, action: UserActions): State {
         tokens: action.payload.tokens
       };
     case ActionTypes.GET_LOGIN_INFO_FAILURE:
-      return initialState;
+      return state;
     case ActionTypes.LOG_OUT:
       return initialState;
     case ActionTypes.GET_UPDATE_USER:
@@ -35,15 +35,11 @@ export function userReducer(state = initialState, action: UserActions): State {
     case ActionTypes.GET_UPDATE_USER_FAILURE:
       return state;
     case ActionTypes.DELETE_USER:
-      return {
-        ...state,
-        ...initialState
-      };
+      return state;
+    case ActionTypes.DELETE_USER_FAILURE:
+      return state;
     case ActionTypes.CREATE_USER:
-      return {
-        ...state,
-        ...initialState
-      };
+      return state;
     default:
       return state;
   }

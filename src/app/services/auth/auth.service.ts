@@ -33,7 +33,6 @@ export class AuthService {
   }
 
   logout() {
-    this.store.dispatch(new LogOut());
     this.removeToken('access');
     this.removeToken('refresh');
     this.router.navigate(['login'])
