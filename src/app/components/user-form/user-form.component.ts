@@ -104,9 +104,10 @@ export class UserFormComponent implements OnInit, OnDestroy, DoCheck {
 
   addValidatorsForSignUpForm() {
     this.form.controls["firstName"].setValidators([
-      Validators.minLength(2),
-      Validators.maxLength(30),
-      Validators.pattern(/^[a-z]+$/i)
+      this.firstNameValidator(/^[a-z]+$/i, 2, 30)
+      // Validators.minLength(2),
+      // Validators.maxLength(30),
+      // Validators.pattern(/^[a-z]+$/i)
     ]);
     this.form.controls["lastName"].setValidators([
       Validators.minLength(2),
@@ -130,10 +131,41 @@ export class UserFormComponent implements OnInit, OnDestroy, DoCheck {
     setTimeout(() => this.error = null, 3000);
   }
 
-  forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
+  firstNameValidator(nameRe: RegExp, minLength: number, maxLength: number): ValidatorFn {
+
     return (control: AbstractControl): {[key: string]: any} | null => {
-      const forbidden = nameRe.test(control.value);
-      return forbidden ? {'forbiddenName': {value: control.value}} : null;
+      if (control.value) {
+        const isValidMinLength = minLength <= control.value.length;
+        const isValidMaxLength = maxLength >= control.value.length;
+        const isValidPattern = nameRe.test(control.value);
+
+        const error = {'validator': ''};
+
+        if (!isValidPattern) {
+          if (error.validator.length === 0) {
+            error.validator = 'Should consist of latin letters only';
+          } else {
+            error.validator = error.validator + '\nShould consist of latin letters only';
+          }
+        }
+
+        if (!isValidMinLength) {
+          if (error.validator.length === 0) {
+            error.validator = 'The minimum length should be 2 letters';
+          } else {
+            error.validator = error.validator + '\nThe minimum length should be 2 letters';
+          }
+        }
+
+        if (!isValidMaxLength) {
+          if (error.validator.length === 0) {
+            error.validator = 'The maximum length should be 30 letters';
+          } else {
+            error.validator = error.validator + '\nThe maximum length should be 30 letters';
+          }
+        }
+        return (isValidPattern && isValidMinLength && isValidMaxLength) ? null : error;
+      }
     };
   }
 

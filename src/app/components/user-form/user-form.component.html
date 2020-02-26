@@ -3,11 +3,8 @@
     <mat-form-field>
       <input matInput formControlName="firstName" placeholder="First Name" [required]="!user">
       <mat-error *ngIf="form.get('firstName').invalid && !user">
-        <div *ngIf="form.get('firstName').errors.minlength">First Name must be at least 2 characters long</div>
         <div *ngIf="form.get('firstName').errors.required">First Name is <strong>required</strong></div>
-        <div *ngIf="form.get('firstName').errors.maxlength">First Name length must not exceed more than 30 characters
-        </div>
-        <div *ngIf="form.get('firstName').errors.pattern">First Name must contain only latin letters</div>
+        <div *ngIf="form.get('firstName').errors.validator">{{form.get('firstName').errors.validator}}</div>
       </mat-error>
     </mat-form-field>
     <mat-form-field>
